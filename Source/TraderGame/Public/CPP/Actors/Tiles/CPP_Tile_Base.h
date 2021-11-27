@@ -22,7 +22,7 @@ protected:
 
 	// список ресурсов, которые можно добыть на этом тайле
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (Tooltip = "Resources to can extract"))
-	TArray<ResourceType> ResourcesIn;
+	TMap<ResourceType, float> ResourcesIn;
 
 	UPROPERTY(BlueprintReadOnly, meta = (Tooltip = "Once for each tile type. Must have unique number", ExposeOnSpawn = "true"))
 	int32 ID_Type;
@@ -31,8 +31,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent)
-	bool ResourceToCanExtract(const ResourceType& resType);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure)
+	bool GetResourcesIn(const ResourceType& resType);
+
+	/*UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure)
+	bool GetAllResourcesIn(TArray<ResourceType>& resTypes);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, meta = (Deprecated = "true"))
+	bool CompareResourcesIn_DEPRECATED(const TArray<ResourceType>& resTypes);*/
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool CompareResourcesIn(const TMap<ResourceType, float>& resTypes);
 
 	UFUNCTION()
 	bool GetTileTypeID(int32& tileType);
