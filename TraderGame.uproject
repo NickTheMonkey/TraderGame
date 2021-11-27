@@ -1,0 +1,20 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{E3CBE9AD-4355-A266-F234-93937121BDB9}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "TraderGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject"
+			]
+		}
+	],
+	"TargetPlatforms": [
+		"WindowsNoEditor"
+	]
+}
