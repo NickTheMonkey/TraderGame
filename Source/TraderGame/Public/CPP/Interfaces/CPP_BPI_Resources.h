@@ -25,6 +25,9 @@ class TRADERGAME_API ICPP_BPI_Resources
 
 public:
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Resources")
+	void Resources_Initialization();
+	
 #pragma region SETTERS
 	// increase one type resource
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Resources|General|Set")

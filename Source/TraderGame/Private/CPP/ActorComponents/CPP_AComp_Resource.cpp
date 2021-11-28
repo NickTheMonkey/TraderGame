@@ -4,6 +4,7 @@
 #include "CPP/ActorComponents/CPP_AComp_Resource.h"
 
 #include "CPP/DATA/CPP_GS_Gameplay.h"
+#include "CPP/ActorComponents/CPP_AComp_Initializator.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
@@ -20,7 +21,7 @@ void UCPP_AComp_Resource::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Server_InitializationStartingResources();
+	Initialization();
 	
 }
 
@@ -31,15 +32,35 @@ void UCPP_AComp_Resource::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(UCPP_AComp_Resource, ResourceStore);
 }
 
-// Resource initialization instructions
-void UCPP_AComp_Resource::Server_InitializationStartingResources_Implementation()
+void UCPP_AComp_Resource::Resources_Initialization_Implementation()
 {
-	ResourceStore.Init(0,static_cast<int32>(ResourceType::RT_Resources_Count));
+	Initialization();
+}
 
-	for(auto a:StartingResources)
+void UCPP_AComp_Resource::Initialization_Implementation()
+{
+	UCPP_AComp_Initializator* initializator = GetWorld()->GetGameState()->FindComponentByClass<UCPP_AComp_Initializator>();
+	if(initializator != nullptr)
 	{
-		ResourceStore[static_cast<int32>(a.Key)] = a.Value;
-	};
+		ResourceStore.Init(0,static_cast<int32>(ResourceType::RT_Resources_Count));
+		
+		TMap<ResourceType, float> resources;
+		initializator->Players_Get_Settings(resources);
+
+		for(auto a:resources)
+		{
+			Server_Set_Resource(a.Key, a.Value);
+		};
+		
+		return ;
+	}
+
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player's resource component: Initializator component not founded") );
+	}
+	
+	return ;
 }
 
 // Set resource amount on server
@@ -47,6 +68,7 @@ void UCPP_AComp_Resource::Server_Set_Resource_Implementation(const ResourceType&
 {
 	ResourceStore[static_cast<int32>(resType)] = amount;
 }
+
 
 void UCPP_AComp_Resource::Server_Resources_Buy_Implementation(const ResourceType& resType, const float& amount)
 {
@@ -146,8 +168,13 @@ bool UCPP_AComp_Resource::Resources_Decrease_Array_Implementation(const TMap<Res
 
 bool UCPP_AComp_Resource::Resources_Get_Amount_Implementation(const ResourceType& resType, float& amount)
 {
-	amount = ResourceStore[static_cast<int32>(resType)];
-	return true;
+	if(ResourceStore[static_cast<int32>(resType)])
+	{
+		amount = ResourceStore[static_cast<int32>(resType)];
+	
+		return true;
+	}
+	return false;
 }
 
 bool UCPP_AComp_Resource::Resources_Get_Enough_Implementation(const ResourceType& resType, const float& amount)

@@ -27,13 +27,14 @@ protected:
 
 //private:
 #pragma region StartingResources
-	
-	UPROPERTY(EditAnywhere, Category = "Resources")
-	TMap<ResourceType, float> StartingResources;
 
 	UFUNCTION(Server, Reliable)
-	void Server_InitializationStartingResources();
+	void Initialization();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Resources|General|Set")
+	void Resources_Initialization();
+	virtual void Resources_Initialization_Implementation() override;
+	
 #pragma endregion StartingResources
 
 #pragma region SERVER_FUNCTIONS
