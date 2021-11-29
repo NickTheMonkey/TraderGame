@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/Actor.h"
 #include "CPP_Tile_Base.generated.h"
 
@@ -25,7 +26,8 @@ protected:
 	TMap<ResourceType, float> ResourcesIn;
 
 	UPROPERTY(BlueprintReadOnly, meta = (Tooltip = "Once for each tile type. Must have unique number", ExposeOnSpawn = "true"))
-	int32 ID_Type;
+	int32 Tile_ID;
+
 	
 public:	
 	// Called every frame
@@ -34,15 +36,15 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure)
 	bool GetResourcesIn(const ResourceType& resType);
 
-	/*UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure)
-	bool GetAllResourcesIn(TArray<ResourceType>& resTypes);
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, meta = (Deprecated = "true"))
-	bool CompareResourcesIn_DEPRECATED(const TArray<ResourceType>& resTypes);*/
-
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool CompareResourcesIn(const TMap<ResourceType, float>& resTypes);
 
 	UFUNCTION()
-	bool GetTileTypeID(int32& tileType);
+	bool Get_Tile_ID(int32& tileType);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Set_Tile_ID(const int32& newID);
+
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* Mesh;*/
 };
