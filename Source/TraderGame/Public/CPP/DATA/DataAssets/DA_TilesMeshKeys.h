@@ -30,7 +30,10 @@ class TRADERGAME_API UDA_TilesMeshKeys : public UDataAsset
 	public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
-	bool GetTileType(const int32& tileID, TSubclassOf<ACPP_Tile_Base>& tileType);
+	bool GetTileType_OLD(const int32& tileID, TSubclassOf<ACPP_Tile_Base>& tileType);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
+	TSubclassOf<ACPP_Tile_Base>& GetTileType(const int32& tileID);
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
 	void GetKeyRange(int32& firstKey, int32& lastKey);
