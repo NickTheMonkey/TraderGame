@@ -21,7 +21,7 @@ class TRADERGAME_API UDA_TilesMeshKeys : public UDataAsset
 	UPROPERTY(EditAnywhere,  meta = (Tooltip = "Last key number for randomizer (if numbers not defined - randomize will generate empty tile)"))
 	int32 LastKeyNumber;
 
-	UPROPERTY(EditAnywhere,  meta = (Tooltip = "Last key number for randomizer (if numbers not defined - randomize will generate empty tile)"))
+	UPROPERTY(EditAnywhere)
 	float TileSize = 100.0f;
 	
 	UPROPERTY(EditAnywhere)
