@@ -8,7 +8,7 @@
 
 #include "CPP_AComp_Initializator.generated.h"
 
-DECLARE_DELEGATE(FPlayersStartSettingsWasChanged);
+DECLARE_DELEGATE(FGameplaySettingsWasChanged);
 
 UCLASS( Blueprintable, BlueprintType, ClassGroup=(Initialization), meta=(BlueprintSpawnableComponent))
 class TRADERGAME_API UCPP_AComp_Initializator : public UActorComponent
@@ -49,6 +49,9 @@ public:
 
 	
 #pragma region Map // Map starting settings
+
+	FGameplaySettingsWasChanged OnMapSettingsChanged;
+	
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	bool Map_Set_Settings(const uint8& width, const uint8& height, const int32& seed);
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Map")
@@ -57,7 +60,7 @@ public:
 
 #pragma region Players // Players starting settings
 
-	FPlayersStartSettingsWasChanged OnPlayersSettingsChanged; //вызывается, когда кол-во ресурсов игроков должно измениться на заданное
+	FGameplaySettingsWasChanged OnPlayersSettingsChanged; //вызывается, когда кол-во ресурсов игроков должно измениться на заданное
 	
 	UFUNCTION(BlueprintCallable, Category = "Players settings")
 	bool Players_Set_Settings(const TMap<ResourceType, float>& playersResources);

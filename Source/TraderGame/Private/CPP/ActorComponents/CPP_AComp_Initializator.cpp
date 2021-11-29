@@ -42,6 +42,8 @@ bool UCPP_AComp_Initializator::Map_Set_Settings(const uint8& width, const uint8&
 		Map_Width = width;
 		Map_Height = height;
 		Map_Seed = seed;
+
+		OnMapSettingsChanged.Execute();
 		return true;
 	}
 
