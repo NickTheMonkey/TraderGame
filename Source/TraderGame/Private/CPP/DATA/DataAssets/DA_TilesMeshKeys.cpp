@@ -12,3 +12,9 @@ bool UDA_TilesMeshKeys::GetTileType_Implementation(const int32& tileID, TSubclas
 	}
 	return false;
 }
+
+void UDA_TilesMeshKeys::GetKeyRange_Implementation(int32& firstKey, int32& lastKey)
+{
+	firstKey = FirstKeyNumber;
+	lastKey = LastKeyNumber;
+}
