@@ -71,35 +71,15 @@ bool UCPP_AComp_Initializator::Players_Set_Settings(const TMap<ResourceType, flo
 	{
 		Players_Resources = playersResources;
 
-		//GetWorld()->GetPlayerControllerIterator()
-		if(GetWorld()->GetFirstPlayerController()->FindComponentByClass<UCPP_AComp_Resource>())
-		{
-			UCPP_AComp_Resource* resComp = GetWorld()->GetFirstPlayerController()->FindComponentByClass<UCPP_AComp_Resource>();
-
-			if(resComp->GetClass()->ImplementsInterface((UCPP_BPI_Resources::StaticClass())))
-			{
-				resComp->Execute_Resources_Initialization(resComp);
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("UCPP_BPI_Resources in UCPP_AComp_Resource not implemented"));
-			}
-			/*if(TSubclassOf<UCPP_AComp_Resource>()->ImplementsInterface(UCPP_BPI_Resources::StaticClass()))
-			{
-				GetWorld()->GetFirstPlayerController()->FindComponentByClass<UCPP_AComp_Resource>()->Execute_Resources_Initialization(GetWorld()->GetFirstPlayerController());
-			}*/
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Initializator component: not founded CPP_AComp_Resource at player's controller"));
-		}
+		OnPlayersSettingsChanged.Execute();
+		
 		return true;
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Initializator component: players starting resources not setted") );
 	}
-	
+		
 	return false;
 }
 

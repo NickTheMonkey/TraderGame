@@ -34,6 +34,9 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Resources|General|Set")
 	void Resources_Initialization();
 	virtual void Resources_Initialization_Implementation() override;
+
+	UFUNCTION()
+	void CreateBinds();
 	
 #pragma endregion StartingResources
 

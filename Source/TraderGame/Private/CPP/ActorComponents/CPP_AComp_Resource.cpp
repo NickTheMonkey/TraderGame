@@ -21,8 +21,9 @@ void UCPP_AComp_Resource::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Initialization();
+	CreateBinds();
 	
+	Initialization();
 }
 
 void UCPP_AComp_Resource::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -35,6 +36,17 @@ void UCPP_AComp_Resource::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void UCPP_AComp_Resource::Resources_Initialization_Implementation()
 {
 	Initialization();
+}
+
+void UCPP_AComp_Resource::CreateBinds()
+{
+	//bind to change resources for players at server
+	UCPP_AComp_Initializator* initializator = GetWorld()->GetGameState()->FindComponentByClass<UCPP_AComp_Initializator>();
+	if(initializator)
+	{
+		initializator->OnPlayersSettingsChanged.BindUFunction(this, "Initialization");
+	};
+	
 }
 
 void UCPP_AComp_Resource::Initialization_Implementation()

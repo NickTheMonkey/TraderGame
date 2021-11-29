@@ -8,6 +8,7 @@
 
 #include "CPP_AComp_Initializator.generated.h"
 
+DECLARE_DELEGATE(FPlayersStartSettingsWasChanged);
 
 UCLASS( Blueprintable, BlueprintType, ClassGroup=(Initialization), meta=(BlueprintSpawnableComponent))
 class TRADERGAME_API UCPP_AComp_Initializator : public UActorComponent
@@ -39,11 +40,14 @@ protected:
 			{ResourceType::RT_Coil, 10.0f},
 			{ResourceType::RT_Gold, 0.0f}
 		}; // starting default minimum resources set
+
 	
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+
+	
 #pragma region Map // Map starting settings
 	UFUNCTION(BlueprintCallable, Category = "Map")
 	bool Map_Set_Settings(const uint8& width, const uint8& height, const int32& seed);
@@ -52,6 +56,9 @@ public:
 #pragma endregion Map
 
 #pragma region Players // Players starting settings
+
+	FPlayersStartSettingsWasChanged OnPlayersSettingsChanged; //вызывается, когда кол-во ресурсов игроков должно измениться на заданное
+	
 	UFUNCTION(BlueprintCallable, Category = "Players settings")
 	bool Players_Set_Settings(const TMap<ResourceType, float>& playersResources);
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Players settings")
