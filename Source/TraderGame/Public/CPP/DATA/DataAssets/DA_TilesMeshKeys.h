@@ -20,6 +20,9 @@ class TRADERGAME_API UDA_TilesMeshKeys : public UDataAsset
 	int32 FirstKeyNumber;
 	UPROPERTY(EditAnywhere,  meta = (Tooltip = "Last key number for randomizer (if numbers not defined - randomize will generate empty tile)"))
 	int32 LastKeyNumber;
+
+	UPROPERTY(EditAnywhere,  meta = (Tooltip = "Last key number for randomizer (if numbers not defined - randomize will generate empty tile)"))
+	float TileSize = 100.0f;
 	
 	UPROPERTY(EditAnywhere)
 	TMap<int32, TSubclassOf<ACPP_Tile_Base>> NumberToTile;	
@@ -32,4 +35,6 @@ class TRADERGAME_API UDA_TilesMeshKeys : public UDataAsset
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
 	void GetKeyRange(int32& firstKey, int32& lastKey);
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
+	float GetTileSize();
 };

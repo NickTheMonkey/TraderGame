@@ -18,3 +18,8 @@ void UDA_TilesMeshKeys::GetKeyRange_Implementation(int32& firstKey, int32& lastK
 	firstKey = FirstKeyNumber;
 	lastKey = LastKeyNumber;
 }
+
+float UDA_TilesMeshKeys::GetTileSize_Implementation()
+{
+	return TileSize;
+}
