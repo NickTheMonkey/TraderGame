@@ -14,14 +14,12 @@ float UDA_TilesMeshKeys::GetTileSize_Implementation()
 	return TileSize;
 }
 
-TSubclassOf<ACPP_Tile_Base> UDA_TilesMeshKeys::GetTileType_Implementation(const int32& tileID)
+bool UDA_TilesMeshKeys::GetTileType_Implementation(const int32& tileID, TSubclassOf<ACPP_Tile_Base>& result)
 {
 	if(NumberToTile.Contains(tileID))
 	{
-		//TODO: функция неправильно возвращает класс
-		TSubclassOf<ACPP_Tile_Base>* result = NumberToTile.Find(tileID);
-		return *result;
+		result = *NumberToTile.Find(tileID);
+		return true;
 	}
-	TSubclassOf<ACPP_Tile_Base> nores;
-	return nores;
+	return false;
 }
