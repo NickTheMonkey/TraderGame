@@ -43,23 +43,23 @@ void ACPP_MapGenerator::Initialization()
 	}
 }
 
-void ACPP_MapGenerator::GenerateMap() //TODO: до конца протестировать функцию
+void ACPP_MapGenerator::GenerateMap()
 {
-	GameMap.Tiles.Empty();
-	for(auto a: MapElements)
+	GameMap.Tiles.Empty(); // очищает массив в структуре, который содержит номера типов тайлов
+	for(auto a: MapElements) //если массив с созданными тайлами не пустой - всех актеров удаляем
 		{
 			if(a)
 			{
 				a->Destroy();
 			}
 		}
-	MapElements.Empty();
+	MapElements.Empty(); //очищаем массив с тайлами-актерами
 
-	for(int x = 0; x < GameMap.Width; x++)
+	for(int x = 0; x < GameMap.Width; x++) // заполняем массив в структуре, который содержит номера типов тайлов
 	{
 		for(int y = 0; y < GameMap.Height; y++)
 		{
-			int32 seed = (GameMap.Width - y) * MapSeed * x * y;
+			int32 seed = (GameMap.Width - y) * MapSeed * ( x == 0 ? 1 : x) * ( y == 0 ? 1 : y);
 
 			FRandomStream stream(seed);
 			int32 l_from, l_to;
@@ -78,12 +78,12 @@ void ACPP_MapGenerator::GenerateMap() //TODO: до конца протестировать функцию
 			FVector* location = new FVector;
 			*location = {0.0f, 0.0f, 0.0f};
 
-			location->X = tileSize * 0.8f * (float)x;
-			location->Y = tileSize * 0.95f * (float)y;
+			location->X = tileSize * 0.94f * (float)x;
+			location->Y = tileSize * 0.81f * (float)y;
 
 			if(y%2 != 0)
 			{
-				location->Y += tileSize * 0.5f;
+				location->X += tileSize * 0.5f;
 			};
 
 			FVector actorLoc = GetActorLocation();
@@ -92,14 +92,17 @@ void ACPP_MapGenerator::GenerateMap() //TODO: до конца протестировать функцию
 
 			*location = *location + actorLoc;
 
-			int32 tileID = GameMap.Tiles[x * GameMap.Width + y];
+			int32 tileID = GameMap.Tiles[y * GameMap.Width + x]; // место x и y не ошибка
+			
 			if(tileID)
 			{
+				TSubclassOf<ACPP_Tile_Base> currentTile;
+				Current_Tileset->GetTileType(tileID, currentTile);
 				ACPP_Tile_Base* spawnedTile;
-				spawnedTile = Cast<ACPP_Tile_Base>(GetWorld()->SpawnActor(Current_Tileset->GetTileType(GameMap.Tiles[tileID]), location));
+				spawnedTile = Cast<ACPP_Tile_Base>(GetWorld()->SpawnActor(currentTile, location));
 				if(spawnedTile)
 				{
-					spawnedTile->Set_Tile_ID(tileID);
+					spawnedTile->Set_Tile_ID(GameMap.Tiles[y * GameMap.Width + x]);
 					MapElements.Add(spawnedTile);
 				}
 				else
