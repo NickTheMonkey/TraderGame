@@ -32,6 +32,9 @@ class TRADERGAME_API ACPP_GS_Gameplay : public AGameState
 
 	protected:
 
+	UFUNCTION()
+	void CreateBinds();
+	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const;
@@ -51,12 +54,11 @@ class TRADERGAME_API ACPP_GS_Gameplay : public AGameState
 	// starting resources set at "details"-panel
 	UPROPERTY(EditAnywhere, Category = "Gamestate resources")
 	TMap<ResourceType, float> Resources_Starting_Amount;
-
-	UPROPERTY(EditAnywhere, Category = "Gamestate resources|Trade|Prices")
-	TMap<ResourceType, float> Resources_Starting_Prices;	// стартовые цены на ресурсы
 	
 	// realization initialization at server
 	UFUNCTION(BlueprintNativeEvent, Category = "Gamestate resources")
 	void InitializationStartingResources();
 #pragma endregion Resources_Initialization
 };
+
+

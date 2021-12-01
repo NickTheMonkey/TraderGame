@@ -2,6 +2,8 @@
 
 
 #include "CPP/DATA/CPP_GS_Gameplay.h"
+
+#include "CPP/ActorComponents/CPP_AComp_Initializator.h"
 #include "Net/UnrealNetwork.h"
 
 ACPP_GS_Gameplay::ACPP_GS_Gameplay()
@@ -12,7 +14,8 @@ ACPP_GS_Gameplay::ACPP_GS_Gameplay()
 void ACPP_GS_Gameplay::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
+	CreateBinds();
 	InitializationStartingResources();
 }
 
@@ -48,10 +51,18 @@ void ACPP_GS_Gameplay::InitializationStartingResources_Implementation()
 	ResourceStore_Old = ResourceStore;
 
 	Resources_Prices.Init(1.0f,static_cast<int32>(ResourceType::RT_Resources_Count));
-	for(auto a:Resources_Starting_Prices)
+
+	UCPP_AComp_Initializator* initializator = this->FindComponentByClass<UCPP_AComp_Initializator>();
+	if(initializator)
 	{
-		Resources_Prices[static_cast<int32>(a.Key)] = a.Value;
-	};
+		TMap<ResourceType, float> pricesRes;
+		initializator->Prices_Get_Settings(pricesRes);
+
+		for(auto a: pricesRes)
+		{
+			Resources_Prices[static_cast<int32>(a.Key)] = a.Value;
+		}
+	}
 }
 
 bool ACPP_GS_Gameplay::Resources_Get_Prices(TMap<ResourceType, float>& resourcesPrice)
@@ -86,4 +97,14 @@ bool ACPP_GS_Gameplay::Resources_Decrease(const ResourceType& resType, const flo
 	ResourceStore[static_cast<int32>(resType)] -= amount;
 	Update_ResourcePrice(resType);
 	return true;
+}
+
+
+void ACPP_GS_Gameplay::CreateBinds()
+{
+	UCPP_AComp_Initializator* initializator = this->FindComponentByClass<UCPP_AComp_Initializator>();
+	if(initializator)
+	{
+		initializator->OnPricesSettingsChanged.BindUFunction(this, "InitializationStartingResources");
+	}
 }
