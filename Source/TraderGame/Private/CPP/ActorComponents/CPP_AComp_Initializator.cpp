@@ -22,7 +22,7 @@ void UCPP_AComp_Initializator::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	Prices.Init(100.f, static_cast<int32>(ResourceType::RT_Resources_Count));
 }
 
 
@@ -91,6 +91,27 @@ void UCPP_AComp_Initializator::Players_Get_Settings(TMap<ResourceType, float>& p
 	{
 		playersResources.Add(a);	
 	};
+}
+
+bool UCPP_AComp_Initializator::Prices_Set_Settings(const TMap<ResourceType, float>& pricesRes)
+{
+	if(pricesRes.Num() == 0) return false;
+
+	for(auto a: pricesRes)
+	{
+		Prices[static_cast<int32>(a.Key)] = a.Value;
+	}
+
+	OnPricesSettingsChanged.Execute();
+	return true;
+}
+
+void UCPP_AComp_Initializator::Prices_Get_Settings(TMap<ResourceType, float>& pricesRes)
+{
+	for(int32 a = 0; a < Prices.Num(); a++)
+	{
+		pricesRes.Add(static_cast<ResourceType>(a), Prices[a]);
+	}
 }
 
 #pragma endregion Players

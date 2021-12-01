@@ -41,6 +41,8 @@ protected:
 			{ResourceType::RT_Gold, 0.0f}
 		}; // starting default minimum resources set
 
+	UPROPERTY()
+	TArray<float> Prices;
 	
 public:	
 	// Called every frame
@@ -67,4 +69,14 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Players settings")
 	void Players_Get_Settings(TMap<ResourceType, float>& playersResources);
 #pragma endregion Players
+
+#pragma region StartPrices // Starting prices in gamestate
+
+	FGameplaySettingsWasChanged OnPricesSettingsChanged; //вызывается, когда цены на ресурсы изменятся
+	
+	UFUNCTION(BlueprintCallable, Category = "Set prices for resources")
+	bool Prices_Set_Settings(const TMap<ResourceType, float>& pricesRes);
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Get prices for resources")
+	void Prices_Get_Settings(TMap<ResourceType, float>& pricesRes);
+#pragma endregion StartPrices
 };
