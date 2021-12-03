@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 
-#include "CPP/DATA/DataAssets/DA_TilesMeshKeys.h"
+
 #include "CPP/DATA/Structs/SGameMap.h"
 #include "GameFramework/Actor.h"
 #include "CPP_MapGenerator.generated.h"
+
+class ACPP_Tile_Base;
+class UDA_TilesMeshKeys;
 
 UCLASS()
 class TRADERGAME_API ACPP_MapGenerator : public AActor

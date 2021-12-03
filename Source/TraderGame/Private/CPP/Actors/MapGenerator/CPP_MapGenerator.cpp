@@ -3,6 +3,7 @@
 
 #include "CPP/Actors/MapGenerator/CPP_MapGenerator.h"
 
+#include "CPP/DATA/DataAssets/DA_TilesMeshKeys.h"
 #include "CPP/ActorComponents/CPP_AComp_Initializator.h"
 #include "GameFramework/GameStateBase.h"
 
@@ -78,12 +79,12 @@ void ACPP_MapGenerator::GenerateMap()
 			FVector* location = new FVector;
 			*location = {0.0f, 0.0f, 0.0f};
 
-			location->X = tileSize * 0.94f * (float)x;
-			location->Y = tileSize * 0.81f * (float)y;
+			location->X = tileSize * .8f * (float)x;
+			location->Y = tileSize * .925f * (float)y;
 
-			if(y%2 != 0)
+			if(x%2 != 0)
 			{
-				location->X += tileSize * 0.5f;
+				location->Y += tileSize * 0.475f;
 			};
 
 			FVector actorLoc = GetActorLocation();
